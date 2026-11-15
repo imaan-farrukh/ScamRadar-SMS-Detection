@@ -1,72 +1,91 @@
-# ScamRadar: SMS Phishing and Scam Detection
+# ScamRadar – SMS Phishing Detection
 
-*Detect the Scam. Protect Your Inbox.*
+**Detect the Scam. Protect Your Inbox.**
 
-ScamRadar is a machine learning project (binary text classification: legitimate versus suspicious SMS) with a Streamlit web
-application. Project by Imaan Farrukh (CT-158), course FDS.
+ScamRadar is a Machine Learning-based SMS phishing detection system designed to identify suspicious messages and help users recognize potential scam activity.
 
-## Project structure
+Users can paste an SMS and receive a prediction, warning signs, and guidance on what to do next.
 
-```
-ScamRadar/
-├── app.py                    Streamlit application (entry point)
-├── engine.py                 model loading, input validation, prediction
-├── ui_style.py               visual identity (CSS and small HTML helpers)
-├── scamradar_utils.py        text normalisation, feature engineering, explanation rules (written by the notebook)
-├── requirements.txt
-├── .streamlit/config.toml    dark theme
-├── assets/                   logo
-├── data/                     raw and cleaned datasets (raw files are never modified)
-├── models/
-│   ├── english_model.joblib      research model: English training data only, evaluated in the notebook
-│   └── deployment_model.joblib   deployment model: English + Roman Urdu training data, not independently evaluated
-├── results/                  result tables and metrics exported by the notebook (read by the "Model Performance" page)
-└── notebooks/
-    └── CT158_UPDATED.ipynb   Phase 1 (data preparation) and Phase 2 (modelling) with all outputs
-```
+## Live Demo
 
-## Install and run
+🚀 **[Try ScamRadar Live](https://scamradar-sms-detection-ifk.streamlit.app/)**
+
+## Features
+
+- SMS scam and phishing detection
+- Machine Learning-based text classification
+- English SMS detection
+- Experimental Roman Urdu SMS detection
+- Warning signs and suspicious pattern identification
+- Interactive Streamlit interface
+- Privacy-conscious message processing
+
+## Technologies Used
+
+- Python
+- Machine Learning
+- Scikit-learn
+- TF-IDF
+- Logistic Regression
+- Pandas
+- Streamlit
+- Joblib
+
+## Project Files
+
+- `app.py` – Streamlit application
+- `engine.py` – Prediction and model loading
+- `scamradar_utils.py` – Text processing and explanation rules
+- `ui_style.py` – UI styling
+- `requirements.txt` – Project dependencies
+- `english_model.joblib` – English SMS model
+- `deployment_model.joblib` – Deployment model
+- `config.toml` – Configuration
+- `logo.png` and `logo.svg` – Project branding
+
+## Model Information
+
+**English:** Uses a tuned Logistic Regression pipeline evaluated through cross-validation and an independent test set.
+
+**Roman Urdu:** Uses an experimental deployment model trained on English and Roman Urdu messages. Its performance has not been independently validated.
+
+## Installation
 
 ```bash
-python -m venv .venv
-# Windows: .venv\Scripts\activate        macOS / Linux: source .venv/bin/activate
+git clone https://github.com/imaan-farrukh/ScamRadar-SMS-Detection.git
+
+cd ScamRadar-SMS-Detection
+
 pip install -r requirements.txt
+
 streamlit run app.py
 ```
 
-The application opens at http://localhost:8501. It only loads the saved models; it never trains anything.
-
-If the saved models cannot be loaded (for example because another scikit-learn version is installed), re-create them by running the
-notebook (next section). The application shows a clear message instead of crashing when a model or result file is missing.
-
-## Re-run the notebook
-
-Open `notebooks/CT158_UPDATED.ipynb` in Jupyter and run all cells from top to bottom (about 15 to 30 minutes on one CPU core, because of
-the hyper-parameter searches and the nested cross-validation). The notebook automatically changes to the project root, reads the
-datasets from `data/`, and writes `scamradar_utils.py`, `models/` and `results/`.
-
-## Which model answers which message?
-
-| Selected language | Model | Evidence |
-|---|---|---|
-| English | `models/english_model.joblib`: tuned Logistic Regression, trained on the English training set only | cross-validation, nested cross-validation and one final evaluation on the untouched English test set (notebook Sections 9 to 13) |
-| Roman Urdu | `models/deployment_model.joblib`: same pipeline, trained on English and Roman Urdu messages | experimental: not independently evaluated; only exploratory template-aware experiments exist (Section 14.3) |
-
-An "Auto Detect" option is intentionally not offered: language detection of short, mixed-language SMS is not reliable.
-The research model is **not** used for Roman Urdu predictions because it does not generalise to Roman Urdu messages (Section 14.2).
-
 ## Privacy
 
-Messages are processed in memory only. They are not stored, logged or used for training. The web application keeps only three
-counters (messages analysed, flagged, legitimate) in the browser session.
+Messages are processed in memory and are not stored or used for model training.
 
 ## Limitations
 
-ScamRadar is an AI-assisted detection tool. It may produce false positives and false negatives. The English training data is
-older and UK-flavoured; the Roman Urdu data is small and built from templates. Never share OTPs, passwords, PINs or banking information
-through suspicious messages, whatever the result of the tool.
+ScamRadar may produce false positives or false negatives. Its predictions should not be treated as a guarantee that a message is safe.
 
-## Data sources
+Never share OTPs, passwords, PINs, or banking information in response to suspicious messages.
 
-* Mishra and Soni (2022), *SMS Phishing Dataset for Machine Learning and Pattern Recognition*, Mendeley Data, DOI 10.17632/f45bkkt8pr.1
-* Siddiq (2026), *Roman Urdu Phishing SMS Dataset for Smishing Detection Research*, Zenodo, DOI 10.5281/zenodo.21810885
+## Future Improvements
+
+- Improve Roman Urdu detection
+- Expand multilingual SMS datasets
+- Enhance model performance
+- Improve detection of emerging phishing patterns
+
+## Author
+
+**Imaan Farrukh**
+
+BS Computer Science
+
+GitHub: [imaan-farrukh](https://github.com/imaan-farrukh)
+
+---
+
+⭐ If you find this project interesting, consider giving the repository a star!
